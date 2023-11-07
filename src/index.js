@@ -3,6 +3,7 @@ import path from 'path';
 import { getParsedFileData } from './parser.js';
 import process from 'process';
 import _ from 'lodash'
+import { makeAstTree } from './makeAstTree.js';
 
 const getAbsolutePath = (file) => {
     const absolutePath = path.resolve(process.cwd(), file);
@@ -21,13 +22,26 @@ const genDiff = (filepath1, filepath2, formatName) => {
     const ext2 = getExtName(filepath2)
     const parsedData1 = getParsedFileData(data1, ext1)
     const parsedData2 = getParsedFileData(data2, ext2)
+    const isAstTree = makeAstTree(parsedData1, parsedData2);
+    const getDiffFlatData = (data) =>{
+        const result = data.map((node) => {
+          if (node.status === "unchanged") {
+            return `    ${node.key}: ${node.value}`;
+          }
+          if (node.status === "changed") {
+            return `  - ${node.key}: ${node.oldValue}\n  + ${node.key}: ${node.newValue}`;
+          }
+          if (node.status === "deleted") {
+            return `  - ${node.key}: ${node.value}`;
+          }
+          if (node.status === "added") {
+            return `  + ${node.key}: ${node.value}`;
+          }
+        })
+        return result.join('\n')
+        }
 
-    // const allKeys = _.union(Object.keys(parsedData1), Object.keys(parsedData2))
-    // console.log(allKeys)
-    // const sortedAllKeys = _.sortBy(allKeys)
-
-
-    return {parsedData1, parsedData2 }
+    return getDiffFlatData(isAstTree)
 }
 
 export default genDiff;
