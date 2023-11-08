@@ -38,7 +38,7 @@ const genDiff = (filepath1, filepath2, formatName) => {
             return `  + ${node.key}: ${node.value}`;
           }
         })
-        return result.join('\n')
+        return `{\n ${result.join('\n')} \n}`
         }
 
     return getDiffFlatData(isAstTree)
