@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1699797229500" clover="3.2.0">
-  <project timestamp="1699797229500" name="All files">
+<coverage generated="1699798173357" clover="3.2.0">
+  <project timestamp="1699798173357" name="All files">
     <metrics statements="99" coveredstatements="99" conditionals="21" coveredconditionals="21" methods="7" coveredmethods="7" elements="127" coveredelements="127" complexity="0" loc="99" ncloc="99" packages="1" files="3" classes="3"/>
     <file name="index.js" path="/Users/Pavel/hexlet-projects/frontend-project-46/src/index.js">
       <metrics statements="47" coveredstatements="47" conditionals="12" coveredconditionals="12" methods="5" coveredmethods="5"/>
