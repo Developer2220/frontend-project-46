@@ -12,6 +12,9 @@ test('check genDiff', () => {
   expect( genDiff(getFixturePath('file1.json'), getFixturePath('file2.json')))
   .toEqual(fs.readFileSync(getFixturePath('etalon.txt'), 'utf8')
   );
+  expect( genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml')))
+  .toEqual(fs.readFileSync(getFixturePath('etalon.txt'), 'utf8')
+  );
   expect( genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml')))
   .toEqual(fs.readFileSync(getFixturePath('etalon.txt'), 'utf8')
   );
