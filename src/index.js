@@ -22,26 +22,76 @@ const genDiff = (filepath1, filepath2, formatName) => {
     const ext2 = getExtName(filepath2)
     const parsedData1 = getParsedFileData(data1, ext1)
     const parsedData2 = getParsedFileData(data2, ext2)
+    console.log(parsedData1)
+    console.log(parsedData2)
     const isAstTree = makeAstTree(parsedData1, parsedData2);
-    const getDiffFlatData = (data) =>{
-        const result = data.map((node) => {
-          if (node.status === "unchanged") {
-            return `    ${node.key}: ${node.value}`;
+    // const getDiffFlatData = (data) =>{
+    //     const result = data.map((node) => {
+    //       if (node.status === "unchanged") {
+    //         return `    ${node.key}: ${node.value}`;
+    //       }
+    //       if (node.status === "changed") {
+    //         return `  - ${node.key}: ${node.oldValue}\n  + ${node.key}: ${node.newValue}`;
+    //       }
+    //       if (node.status === "deleted") {
+    //         return `  - ${node.key}: ${node.value}`;
+    //       }
+    //       if (node.status === "added") {
+    //         return `  + ${node.key}: ${node.value}`;
+    //       }
+    //     })
+    //     return `{\n${result.join('\n')}\n}`
+    //     }
+    const getDiffFlatData = (data) => {
+      return data.reduce((acc, node) => {
+        if (node.status === 'nested') {
+          acc[node.key] = getDiffFlatData(node.children);
+        } else if (node.status === 'unchanged') {
+          acc[node.key] = node.value;
+        } else if (node.status === 'changed') {
+          if (!acc[node.key]) {
+            acc[node.key] = [];
           }
-          if (node.status === "changed") {
-            return `  - ${node.key}: ${node.oldValue}\n  + ${node.key}: ${node.newValue}`;
+          acc[node.key].push(` - ${node.key}: ${node.oldValue}`);
+          acc[node.key].push(` + ${node.key}: ${node.newValue}`);
+        } else if (node.status === 'deleted') {
+          if (!acc[node.key]) {
+            acc[node.key] = [];
           }
-          if (node.status === "deleted") {
-            return `  - ${node.key}: ${node.value}`;
+          acc[node.key].push(` - ${node.key}: ${node.value}`);
+        } else if (node.status === 'added') {
+          if (!acc[node.key]) {
+            acc[node.key] = [];
           }
-          if (node.status === "added") {
-            return `  + ${node.key}: ${node.value}`;
-          }
-        })
-        return `{\n${result.join('\n')}\n}`
+          acc[node.key].push(` + ${node.key}: ${node.value}`);
         }
+        return acc;
+      }, {});
+     };
+     console.log(getDiffFlatData(isAstTree))
 
-    return getDiffFlatData(isAstTree)
+     const stringify = (data, replacer = ' ', spacesCount = 1, depth = 1) => {
+      const spaces = replacer.repeat(spacesCount * depth);
+      if (typeof data === 'object' && data !== null) {
+        const entries = Object.entries(data);
+        console.log(entries)
+        const formattedEntries = entries.map(([key, value]) => {
+          if (typeof value === "object") {
+            const nestedObject = stringify(value, replacer, spacesCount, depth + 1);
+            return `${spaces}${key}: ${nestedObject}`;
+          } else {
+            return `${spaces}${key}: ${value}`;
+          }
+        });
+    
+        return `{\n${formattedEntries.join("\n")}\n${replacer.repeat(spacesCount * (depth - 1))}}`;
+      } else {
+        return data;
+      }
+    };
+
+    // return getDiffFlatData(isAstTree)
+    return stringify(getDiffFlatData(isAstTree))
 }
 
 export default genDiff;
