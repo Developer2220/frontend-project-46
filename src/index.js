@@ -42,36 +42,50 @@ const genDiff = (filepath1, filepath2, formatName) => {
     //     })
     //     return `{\n${result.join('\n')}\n}`
     //     }
-    const getDiffFlatData = (data) => {
-      return data.reduce((acc, node) => {
-        if (node.status === 'nested') {
-          acc[node.key] = getDiffFlatData(node.children);
-        } else if (node.status === 'unchanged') {
-          acc[node.key] = node.value;
-        } else if (node.status === 'changed') {
-          if (!acc[node.key]) {
-            acc[node.key] = [];
+    const stylish = (data) => {
+      const iter = (arrWithData, currentDepth) => {
+        return arrWithData.map((node) => {
+          // const spaces = ''.repeat(currentDepth);
+    
+          if (node.status === 'unchanged') {
+            return `  ${node.key}: ${stringify(node.value, ' ', 4)}`;
           }
-          acc[node.key].push(` - ${node.key}: ${node.oldValue}`);
-          acc[node.key].push(` + ${node.key}: ${node.newValue}`);
-        } else if (node.status === 'deleted') {
-          if (!acc[node.key]) {
-            acc[node.key] = [];
+    
+          if (node.status === 'changed') {
+            return `- ${node.key}: ${stringify(node.oldValue, ' ', 4)}\n+ ${node.key}: ${stringify(node.newValue, ' ', 4)}`;
           }
-          acc[node.key].push(` - ${node.key}: ${node.value}`);
-        } else if (node.status === 'added') {
-          if (!acc[node.key]) {
-            acc[node.key] = [];
+    
+          if (node.status === 'deleted') {
+            return `- ${node.key}: ${stringify(node.value, ' ', 4)}`;
           }
-          acc[node.key].push(` + ${node.key}: ${node.value}`);
-        }
-        return acc;
-      }, {});
-     };
-     console.log(getDiffFlatData(isAstTree))
-
-     const stringify = (data, replacer = ' ', spacesCount = 1, depth = 1) => {
+    
+          if (node.status === 'added') {
+            return `+ ${node.key}: ${stringify(node.value, ' ', 4)}`;
+          }
+    
+          if (node.status === 'nested') {
+            return `  ${node.key}: {\n${iter(node.children, currentDepth + 1).join('\n')}\n  }`;
+          }
+        });
+      };
+    
+      return iter(data, 1).join('\n');
+    };
+    
+    
+    const stringify = (data, replacer = ' ', spacesCount = 1, depth = 1) => {
       const spaces = replacer.repeat(spacesCount * depth);
+    
+      if (typeof data === 'string') {
+        return data.replace(/"/g, '');
+      }
+      if (data === true) {
+        return data.toString();
+      }
+      if (Number.isFinite(data)) {
+        return data.toString();
+      }
+    
       if (typeof data === 'object' && data !== null) {
         const entries = Object.entries(data);
         console.log(entries)
@@ -91,7 +105,7 @@ const genDiff = (filepath1, filepath2, formatName) => {
     };
 
     // return getDiffFlatData(isAstTree)
-    return stringify(getDiffFlatData(isAstTree))
+    return stylish(isAstTree)
 }
 
 export default genDiff;
