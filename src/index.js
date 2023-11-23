@@ -42,39 +42,52 @@ const genDiff = (filepath1, filepath2, formatName) => {
     //     })
     //     return `{\n${result.join('\n')}\n}`
     //     }
+    const calculateIndent = (depth, spacesCount = 4) => {
+      const count = spacesCount * depth - 2;
+      return count >= 0 ? ' '.repeat(count) : '  ';
+    };
+    
+    
     const stylish = (data) => {
-      const iter = (arrWithData, currentDepth) => {
-        return arrWithData.map((node) => {
-          // const spaces = ''.repeat(currentDepth);
+      const iter = (arrWithData, depth) => {
+        const indent = calculateIndent(depth);
+        const result =  arrWithData.map((node) => {
+          // const spaces = ''.repeat(depth);
     
           if (node.status === 'unchanged') {
-            return `  ${node.key}: ${stringify(node.value, ' ', 4)}`;
+            return `  ${indent}${node.key}: ${stringify(node.value)}`;
           }
     
           if (node.status === 'changed') {
-            return `- ${node.key}: ${stringify(node.oldValue, ' ', 4)}\n+ ${node.key}: ${stringify(node.newValue, ' ', 4)}`;
+            return `${indent}- ${node.key}: ${stringify(node.oldValue)}\n${indent}+ ${node.key}: ${stringify(node.newValue)}`;
           }
     
           if (node.status === 'deleted') {
-            return `- ${node.key}: ${stringify(node.value, ' ', 4)}`;
+            return `${indent}- ${node.key}: ${stringify(node.value)}`;
           }
     
           if (node.status === 'added') {
-            return `+ ${node.key}: ${stringify(node.value, ' ', 4)}`;
+            return `${indent}+ ${node.key}: ${stringify(node.value)}`;
           }
     
           if (node.status === 'nested') {
-            return `  ${node.key}: {\n${iter(node.children, currentDepth + 1).join('\n')}\n  }`;
+            return `${indent}${node.key}: {\n${iter(node.children, depth + 1).join('\n')}\n  }`;
           }
         });
+    
+        return result
+        // return ['{', ...result, `}`];
+        
       };
     
       return iter(data, 1).join('\n');
     };
     
     
-    const stringify = (data, replacer = ' ', spacesCount = 1, depth = 1) => {
-      const spaces = replacer.repeat(spacesCount * depth);
+    const stringify = (data, replacer = ' ', spacesCount = 4, depth = 1) => {
+      // const spaces = replacer.repeat(spacesCount * depth);
+      const currentIndent = calculateIndent(depth + 1);
+      const bracketIndent = calculateIndent(depth);
     
       if (typeof data === 'string') {
         return data.replace(/"/g, '');
@@ -88,21 +101,22 @@ const genDiff = (filepath1, filepath2, formatName) => {
     
       if (typeof data === 'object' && data !== null) {
         const entries = Object.entries(data);
-        console.log(entries)
+        // console.log(entries)
         const formattedEntries = entries.map(([key, value]) => {
           if (typeof value === "object") {
             const nestedObject = stringify(value, replacer, spacesCount, depth + 1);
-            return `${spaces}${key}: ${nestedObject}`;
+            return `${currentIndent}${key}: ${nestedObject}`;
           } else {
-            return `${spaces}${key}: ${value}`;
+            return `${currentIndent}${key}: ${value}`;
           }
         });
     
-        return `{\n${formattedEntries.join("\n")}\n${replacer.repeat(spacesCount * (depth - 1))}}`;
+        return `{\n${formattedEntries.join("\n")}\n${bracketIndent}}`;
       } else {
         return data;
       }
     };
+    
 
     // return getDiffFlatData(isAstTree)
     return stylish(isAstTree)
