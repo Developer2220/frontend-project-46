@@ -5,7 +5,7 @@ import process from 'process';
 import _ from 'lodash'
 import { makeAstTree } from './makeAstTree.js';
 import stylish from './formatters/stylish.js';
-import formatPlain from './formatters/plain.js';
+import plain from './formatters/plain.js';
 
 
 
@@ -17,7 +17,7 @@ const getExtName = (file) => path.extname(file);
 const readData = (file) => fs.readFileSync(file, 'utf-8');
 
 
-const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
+const genDiff = (filepath1, filepath2, formatName = 'plain') => {
     const absolutPath1 = getAbsolutePath(filepath1)
     const absolutPath2 = getAbsolutePath(filepath2)
     const data1 = readData(absolutPath1)
@@ -29,8 +29,15 @@ const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
     // console.log(parsedData1)
     // console.log(parsedData2)
     const isAstTree = makeAstTree(parsedData1, parsedData2);
-
-    return formatPlain(isAstTree)
+   
+    if (formatName === 'stylish') {
+      return stylish(isAstTree)
+    }
+    if (formatName === 'plain') {
+      return plain(isAstTree)
+    } else {
+      throw new Error(`Unsupported format: ${formatName}`);
+    }
 }
 
 export default genDiff;
