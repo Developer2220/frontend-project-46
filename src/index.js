@@ -4,7 +4,9 @@ import { getParsedFileData } from './parser.js';
 import process from 'process';
 import _ from 'lodash'
 import { makeAstTree } from './makeAstTree.js';
-import { stylish } from './formatters/stylish.js';
+import stylish from './formatters/stylish.js';
+import formatPlain from './formatters/plain.js';
+
 
 
 const getAbsolutePath = (file) => {
@@ -15,7 +17,7 @@ const getExtName = (file) => path.extname(file);
 const readData = (file) => fs.readFileSync(file, 'utf-8');
 
 
-const genDiff = (filepath1, filepath2, formatName) => {
+const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
     const absolutPath1 = getAbsolutePath(filepath1)
     const absolutPath2 = getAbsolutePath(filepath2)
     const data1 = readData(absolutPath1)
@@ -28,7 +30,7 @@ const genDiff = (filepath1, filepath2, formatName) => {
     // console.log(parsedData2)
     const isAstTree = makeAstTree(parsedData1, parsedData2);
 
-    return stylish(isAstTree)
+    return formatPlain(isAstTree)
 }
 
 export default genDiff;

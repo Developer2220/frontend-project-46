@@ -66,4 +66,4 @@ const stylish = (data) => {
     return count >= 0 ? ' '.repeat(count) : '  ';
   };
 
-  export {stylish}
+  export default stylish
