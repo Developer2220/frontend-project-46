@@ -24,6 +24,7 @@ const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
     const parsedData2 = getParsedFileData(data2, ext2)
     const res = chooseFormatters(parsedData1, parsedData2, formatName)
     return res
+    
 }
 
 export default genDiff;

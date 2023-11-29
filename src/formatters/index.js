@@ -1,5 +1,6 @@
-import stylish from "./stylish.js"
-import plain from "./plain.js"
+import stylish from "./stylish.js";
+import plain from "./plain.js";
+import json from "./json.js";
 import { makeAstTree } from "../makeAstTree.js";
 
 const chooseFormatters = (obj1, obj2, formatName) => {
@@ -8,6 +9,9 @@ const chooseFormatters = (obj1, obj2, formatName) => {
       }
       if (formatName === 'plain') {
         return plain(makeAstTree(obj1, obj2))
+      } 
+      if (formatName === 'json') {
+        return json(makeAstTree(obj1, obj2))
       } else {
         throw new Error(`Unsupported format: ${formatName}`);
       }
