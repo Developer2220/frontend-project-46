@@ -31,3 +31,17 @@ test('check genDiff with plain', () => {
     .toEqual(fs.readFileSync(getFixturePath('etalonPlain.txt'), 'utf8')
     );
   });
+
+  test('check genDiff with json', () => {
+    expect( genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'json'))
+    .toEqual(fs.readFileSync(getFixturePath('etalonJSON.txt'), 'utf8')
+    );
+    expect( genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'), 'json'))
+    .toEqual(fs.readFileSync(getFixturePath('etalonJSON.txt'), 'utf8')
+    );
+    expect( genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'json'))
+    .toEqual(fs.readFileSync(getFixturePath('etalonJSON.txt'), 'utf8')
+    );
+  });
+
+  
