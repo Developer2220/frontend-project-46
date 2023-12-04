@@ -21,17 +21,18 @@ const stylish = (data) => {
         }
   
         if (node.status === 'nested') {
-          return `${indent}${node.key}: {\n${iter(node.children, depth + 1).join('\n')}\n${indent}  }`;
+          return `  ${indent}${node.key}: {\n${iter(node.children, depth + 1).join('\n')}\n${indent}  }`;
         }
       });
       return result
     };
-    return `{\n  ${iter(data, 1).join('\n')}\n}`
+    return `{\n${iter(data, 1).join('\n')}\n}`
   };
   
   
   const stringify = (data, replacer = ' ', spacesCount = 4, depth = 1) => {
     const currentIndent = calculateIndent(depth + 1);
+    const bracketIndent = calculateIndent(depth);
   
     if (typeof data === 'string') {
       return data.replace(/"/g, '');
@@ -51,11 +52,11 @@ const stylish = (data) => {
           const nestedObject = stringify(value, replacer, spacesCount, depth + 1);
           return `  ${currentIndent}${key}: ${nestedObject}`;
         } else {
-          return `    ${currentIndent}${key}: ${value}`;
+          return `  ${currentIndent}${key}: ${value}`;
         }
       });
   
-      return `{\n${formattedEntries.join("\n")}\n${currentIndent}}`;
+      return `{\n${formattedEntries.join("\n")}\n${bracketIndent}  }`;
     } else {
       return data;
     }
