@@ -36,7 +36,3 @@ gendiff -f, --format [plain, json] <filepath1> <filepath2>: show diff with plain
 
 
 • Comparing yaml and yml files and making output in json format:
-
-<div style="background-color: #f0f0f0; padding: 10px;">
-    <p>Этот текст будет иметь фон.</p>
-</div>
