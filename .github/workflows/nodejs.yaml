@@ -3,7 +3,7 @@ name: Node CI
 
 # Trigger the workflow on push or pull request
 on:
-  # - push
+  - push
   - pull_request
 
 env:
