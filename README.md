@@ -7,13 +7,13 @@
 ### Test coverage
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5328c7cad9c24377d2d4/test_coverage)](https://codeclimate.com/github/Developer2220/frontend-project-46/test_coverage)
 
-**Description:**
+### Description:
 
 Difference calculator is a console utility designed to calculate and display the difference between two data structures. The utility can display the difference in 2 formats.
 
 Supporting formats: JSON, YML, YAML
 
-**Installation:**
+### Installation:
 
 1. Clone this repository
 
@@ -21,12 +21,12 @@ Supporting formats: JSON, YML, YAML
 
 3. Run the command: npm link
 
-**Launch**
+### Launch:
 
 gendiff <filepath1> <filepath2>: show diff with default format
 gendiff -f, --format [plain, json] <filepath1> <filepath2>: show diff with plain or json format
 
-**Demonstration**
+### Demonstration
 
 • Comparing json and yaml files and making output in stylish format (default):
 
@@ -36,3 +36,4 @@ gendiff -f, --format [plain, json] <filepath1> <filepath2>: show diff with plain
 
 
 • Comparing yaml and yml files and making output in json format:
+
