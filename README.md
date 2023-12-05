@@ -6,34 +6,33 @@
 
 ### Test coverage
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5328c7cad9c24377d2d4/test_coverage)](https://codeclimate.com/github/Developer2220/frontend-project-46/test_coverage)
-
+___
 ### Description:
 
 Difference calculator is a console utility designed to calculate and display the difference between two data structures. The utility can display the difference in 2 formats.
 
 Supporting formats: JSON, YML, YAML
-
+___
 ### Installation:
 
 1. Clone this repository
+2. Run the command: ```make install```
+3. Run the command: ```npm link```
+___
+### How to use:
 
-2. Run the command: make install
+```
+Usage: gendiff [options] <filepath1> <filepath2>
 
-3. Run the command: npm link
+Compares two configuration files and shows a difference.
 
-### Launch:
-
-gendiff <filepath1> <filepath2>: show diff with default format
-gendiff -f, --format [plain, json] <filepath1> <filepath2>: show diff with plain or json format
-
+Options:
+  -V, --version        output the version number
+  -f, --format <type>  output format (default: "stylish")
+  -h, --help           output usage information
+```
+___
 ### Demonstration
 
-• Comparing json and yaml files and making output in stylish format (default):
-
-<!-- [![asciicast](https://asciinema.org/a/W7eEyo7B4uQwOv8euYOwyUryG.svg)](https://asciinema.org/a/W7eEyo7B4uQwOv8euYOwyUryG) -->
-
-• Comparing yaml and json files and making output in plain format:
-
-
-• Comparing yaml and yml files and making output in json format:
+[![asciicast](https://asciinema.org/a/ou2zBREtI4eb1JWxsUKSRYbCJ.svg)](https://asciinema.org/a/ou2zBREtI4eb1JWxsUKSRYbCJ)
 
