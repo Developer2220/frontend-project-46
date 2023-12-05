@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/Developer2220/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Developer2220/frontend-project-46/actions) [![Maintainability](https://api.codeclimate.com/v1/badges/93130a107a9b3d3a5d56/maintainability)](https://codeclimate.com/github/Developer2220/js-starter-project-46/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/5328c7cad9c24377d2d4/test_coverage)](https://codeclimate.com/github/Developer2220/frontend-project-46/test_coverage)
+[![Actions Status](https://github.com/Developer2220/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Developer2220/frontend-project-46/actions) [![Maintainability](https://api.codeclimate.com/v1/badges/5328c7cad9c24377d2d4/maintainability)](https://codeclimate.com/github/Developer2220/frontend-project-46/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/5328c7cad9c24377d2d4/test_coverage)](https://codeclimate.com/github/Developer2220/frontend-project-46/test_coverage)
 ___
 ### Description:
 
