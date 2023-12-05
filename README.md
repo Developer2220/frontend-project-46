@@ -2,9 +2,8 @@
 ___
 ### Description:
 
-Difference calculator is a console utility designed to calculate and display the difference between two data structures. The utility can display the difference in 2 formats.
+Difference generator is a console utility to find and display the differences between two configuration files in json, yml or yaml format
 
-Supporting formats: JSON, YML, YAML
 ___
 ### Installation:
 
