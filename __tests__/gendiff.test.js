@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { test, expect } from 'jest';
+// import { test, expect } from 'jest';
 import genDiff from '../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
