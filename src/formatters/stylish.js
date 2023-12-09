@@ -5,19 +5,19 @@ const stylish = (data) => {
         // const spaces = ''.repeat(depth);
   
         if (node.status === 'unchanged') {
-          return `  ${indent}${node.key}: ${stringify(node.value)}`;
+          return `  ${indent}${node.key}: ${stringify(node.value, depth)}`;
         }
   
         if (node.status === 'changed') {
-          return `${indent}- ${node.key}: ${stringify(node.oldValue)}\n${indent}+ ${node.key}: ${stringify(node.newValue)}`;
+          return `${indent}- ${node.key}: ${stringify(node.oldValue, depth)}\n${indent}+ ${node.key}: ${stringify(node.newValue, depth)}`;
         }
   
         if (node.status === 'deleted') {
-          return `${indent}- ${node.key}: ${stringify(node.value)}`;
+          return `${indent}- ${node.key}: ${stringify(node.value, depth)}`;
         }
   
         if (node.status === 'added') {
-          return `${indent}+ ${node.key}: ${stringify(node.value)}`;
+          return `${indent}+ ${node.key}: ${stringify(node.value, depth)}`;
         }
   
         if (node.status === 'nested') {
@@ -30,26 +30,25 @@ const stylish = (data) => {
   };
   
   
-  const stringify = (data, replacer = ' ', spacesCount = 4, depth = 1) => {
+  const stringify = (data, depth = 1) => {
     const currentIndent = calculateIndent(depth + 1);
     const bracketIndent = calculateIndent(depth);
   
-    if (typeof data === 'string') {
-      return data.replace(/"/g, '');
-    }
-    if (data === true) {
-      return data.toString();
-    }
-    if (Number.isFinite(data)) {
-      return data.toString();
-    }
+    // if (typeof data === 'string') {
+    //   return data.replace(/"/g, '');
+    // }
+    // if (data === true) {
+    //   return data.toString();
+    // }
+    // if (Number.isFinite(data)) {
+    //   return data.toString();
+    // }
   
     if (typeof data === 'object' && data !== null) {
       const entries = Object.entries(data);
-      // console.log(entries)
       const formattedEntries = entries.map(([key, value]) => {
         if (typeof value === "object") {
-          const nestedObject = stringify(value, replacer, spacesCount, depth + 1);
+          const nestedObject = stringify(value, depth + 1);
           return `  ${currentIndent}${key}: ${nestedObject}`;
         } else {
           return `  ${currentIndent}${key}: ${value}`;
