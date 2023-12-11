@@ -25,26 +25,20 @@ const stylish = (data) => {
   const iter = (arrWithData, depth) => {
     const indent = calculateIndent(depth);
     const result = arrWithData.map((node) => {
-      if (node.status === 'unchanged') {
-        return `  ${indent}${node.key}: ${stringify(node.value, depth)}`;
+      switch (node.status) {
+        case 'unchanged':
+          return `  ${indent}${node.key}: ${stringify(node.value, depth)}`;
+        case 'deleted':
+          return `${indent}- ${node.key}: ${stringify(node.value, depth)}`;
+        case 'added':
+          return `${indent}+ ${node.key}: ${stringify(node.value, depth)}`;
+        case 'changed':
+          return `${indent}- ${node.key}: ${stringify(node.oldValue, depth)}\n${indent}+ ${node.key}: ${stringify(node.newValue, depth)}`;
+        case 'nested':
+          return `  ${indent}${node.key}: {\n${iter(node.children, depth + 1).join('\n')}\n${indent}  }`;
+        default:
+          throw new Error(`Unknown node status: ${node.status}`);
       }
-
-      if (node.status === 'changed') {
-        return `${indent}- ${node.key}: ${stringify(node.oldValue, depth)}\n${indent}+ ${node.key}: ${stringify(node.newValue, depth)}`;
-      }
-
-      if (node.status === 'deleted') {
-        return `${indent}- ${node.key}: ${stringify(node.value, depth)}`;
-      }
-
-      if (node.status === 'added') {
-        return `${indent}+ ${node.key}: ${stringify(node.value, depth)}`;
-      }
-
-      if (node.status === 'nested') {
-        return `  ${indent}${node.key}: {\n${iter(node.children, depth + 1).join('\n')}\n${indent}  }`;
-      }
-      return `Unknown status: '${node.status}'!`;
     });
     return result;
   };

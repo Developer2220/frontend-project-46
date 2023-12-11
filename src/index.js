@@ -20,8 +20,7 @@ const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
   const ext2 = getExtName(filepath2);
   const parsedData1 = getParsedFileData(data1, ext1);
   const parsedData2 = getParsedFileData(data2, ext2);
-  const res = chooseFormatters(parsedData1, parsedData2, formatName);
-  return res;
+  return chooseFormatters(parsedData1, parsedData2, formatName);
 };
 
 export default genDiff;

@@ -4,16 +4,16 @@ import json from './json.js';
 import makeAstTree from '../makeAstTree.js';
 
 const chooseFormatters = (obj1, obj2, formatName) => {
-  if (formatName === 'stylish') {
-    return stylish(makeAstTree(obj1, obj2));
+  switch (formatName) {
+    case 'stylish':
+      return stylish(makeAstTree(obj1, obj2));
+    case 'plain':
+      return plain(makeAstTree(obj1, obj2));
+    case 'json':
+      return json(makeAstTree(obj1, obj2));
+    default:
+      throw new Error(`Unsupported format: ${formatName}'!`);
   }
-  if (formatName === 'plain') {
-    return plain(makeAstTree(obj1, obj2));
-  }
-  if (formatName === 'json') {
-    return json(makeAstTree(obj1, obj2));
-  }
-  throw new Error(`Unsupported format: ${formatName}`);
 };
 
 export default chooseFormatters;

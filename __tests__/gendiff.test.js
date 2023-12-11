@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-// import { test, expect } from 'jest';
 import genDiff from '../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,4 +32,13 @@ test('check genDiff with json', () => {
     .toEqual(fs.readFileSync(getFixturePath('etalonJSON.txt'), 'utf8'));
   expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'json'))
     .toEqual(fs.readFileSync(getFixturePath('etalonJSON.txt'), 'utf8'));
+});
+
+test('check genDiff', () => {
+  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json')))
+    .toEqual(fs.readFileSync(getFixturePath('etalonStylish.txt'), 'utf8'));
+  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml')))
+    .toEqual(fs.readFileSync(getFixturePath('etalonStylish.txt'), 'utf8'));
+  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml')))
+    .toEqual(fs.readFileSync(getFixturePath('etalonStylish.txt'), 'utf8'));
 });
